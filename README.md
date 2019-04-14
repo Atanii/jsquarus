@@ -6,6 +6,10 @@
 
 ------
 
+### Play:
+
+You can try and play this game here: https://atanii.github.io/jsquarus/
+
 ### Controls:
 
 | Key  | command                       |
