@@ -1,0 +1,67 @@
+html {
+    background-color: black;
+}
+
+body {
+    overflow: hidden;
+}
+
+#gameArea {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: rgb(15, 15, 15);
+    border: 1px solid white;
+}
+
+#player {
+    z-index: 3;
+}
+
+.hurt {
+    animation: playerHurt 1s infinite;
+}
+@keyframes playerHurt {    
+    0% {
+        background-color: black;
+    }
+    50% {
+        background-color: violet;
+    }
+    100% {
+        background-color: white;
+    }
+}
+
+.floor {
+    z-index: 0;
+}
+
+.laser {
+    /* transition-delay: 0.5s; */
+    animation: laserAnim 2s infinite;
+    border: 1px white solid;
+    z-index: 2;
+}
+@keyframes laserAnim {    
+    0% {
+        background-color: red;
+        border: 1px white solid;
+    }
+    50% {
+        background-color: rgb(100, 0, 0);
+        border: 1px red solid;
+    }
+    100% {
+        background-color: red;
+        border: 1px white solid;
+    }
+}
+
+.laser-line {
+    z-index: 2;
+    animation: laserAnim 2s infinite;
+}
