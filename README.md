@@ -39,7 +39,7 @@ This clone: Jeremi Emánuel Kádár (nickname: Atanii)
 ### Plans for final version:
 
 1. 4-5 levels
-2. highscore...
-3. ...and input for name to put into highscore
-4. music
-5. sound effects
+2. &#10004; highscore...
+3. &#10004; ...and input for name to put into highscore
+4. &#10004; music
+5. &#10004; sound effects
