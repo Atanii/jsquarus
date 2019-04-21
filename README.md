@@ -1,5 +1,9 @@
 # JSquarus
 
+<img src="assets\readme\Screenshot-2019-4-21 JSquarus.png">
+
+---
+
 ## Squarus clone in HTML, CSS, JavaScript (JQuery)
 
 ## Original game: https://saucetin.itch.io/squarus
