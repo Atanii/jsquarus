@@ -5,12 +5,47 @@ const Dir = Object.freeze({
    "left": 40
 });
 
+class Sound {
+    constructor(name, path, isLooping, isAutoPlay, appendToThisNode, muted = false) {
+        this.id = name;
+        this.node = $(
+        '<audio id="' + name + '">' +
+            '<source src="' + path + '" type="audio/wav">' +
+        '</audio>'
+        );        
+        this.node.attr("loop", isLooping);
+        this.node.attr("autoplay", isAutoPlay);
+        this.node.attr("muted", muted);
+        this.node.appendTo(appendToThisNode);
+    }
+    play() {
+        document.getElementById(this.id).play();
+    }
+    pause() {
+        document.getElementById(this.id).pause();
+    }
+}
+
 class Player {
     constructor() {
         this.boxMovedEvent = new CustomEvent('box-moved');
         this.atGoalEvent = new CustomEvent('goal-reached');
         this.atBonusEvent = new CustomEvent('bonus-reached');
         this.score = 0;
+        this.fxBonus = new Sound(
+            "bonus",
+            "assets/sound/Atanii - JSquarus - Bonus.wav",
+            false, false,
+            "body"
+        );
+        (document.getElementById("bonus")).volume = 0.1;
+        this.fxGameOver = new Sound(
+            "game-over",
+            "assets/sound/Atanii - JSquarus - Game Over.wav",
+            false, false,
+            "body"
+        );
+        (document.getElementById("game-over")).volume = 0.1;
     }
 
     set(x, y, size) {
@@ -70,6 +105,7 @@ class Player {
     checkLaser(x, y) {
         if (this.isLaser(this.x, this.y)) {
             $('#player').addClass("hurt");
+            this.fxGameOver.play();
         }
     }
 
@@ -89,6 +125,7 @@ class Player {
         if(!!bonus) {
             bonus.remove();
             this.score++;
+            this.fxBonus.play();
             document.dispatchEvent(this.atBonusEvent);            
         }
     }
@@ -334,6 +371,77 @@ class Laser {
     }
 }
 
+class HighScore {
+    constructor(player, show = false) {
+        this.player = player;
+        this.players = [
+            { name: "John", score: 1 },
+            { name: "Mary", score: 3 },
+            { name: "Dávid", score: 2 },
+            { name: "Nincs ennyi pont a játékban", score: 10 },
+            { name: "Some AI..", score: 2 },
+        ];        
+        this.node = $(
+            '<div id="highscore">' +
+                '<input id="player-name" placeholder="your name (press enter to accept)"></input>' +
+                '<textarea id="players-list"></textarea>' +
+            '</div>'
+        );
+        this.node.appendTo('body');        
+        $('#players-list').html(this.list());
+        $('#player-name').on('keydown', this.acceptName.bind(this));
+        this.show = show;
+        this.updateVisibility();
+    }
+    toggleVisibility() {
+        this.show = !this.show;
+        this.updateVisibility();
+    }
+    updateVisibility() {
+        this.node.css({
+            "visibility": this.show ? "visible" : "hidden"
+        });
+    }    
+    acceptName(event) {
+        if(!this.show || event.key != 'Enter') {
+            return;
+        }
+        const name = $('#player-name').val();
+        if(!name) {
+            return;
+        }
+        this.players.push(
+            {
+                name: name,
+                score: this.player.score
+            }
+        );
+        $('#player-name').val("");
+        $('#players-list').html(this.list());        
+    }    
+    sort(ascending = false) {
+        if(ascending) {
+            this.players.sort((a, b) => {
+                return a.score - b.score;
+            });
+        } else {
+            this.players.sort((a, b) => {
+                return b.score - a.score;
+            });
+        }        
+    }
+    list() {
+        let l = "";
+        this.sort();
+        for(let i = 0; i < this.players.length; i++) {
+            l = l.concat(
+                (i + 1) + ". " + this.players[i].name + " : " + this.players[i].score + "\n"
+            );
+        }
+        return l;
+    }
+}
+
 class LevelHandler {
     constructor(gridSize = 50, levelSize = 16) {
         this.gridSize = gridSize;
@@ -342,13 +450,17 @@ class LevelHandler {
         this.currentLevel = 0;
         this.maxLevels = 2;
         this.player = new Player();
+        this.hs = new HighScore(this.player);
         $(window).on('keydown', event => {            
-            if(!$('#player').hasClass("hurt")) {
+            if(!this.hs.show && !$('#player').hasClass("hurt")) {
                 this.player.move(event);
             }            
         });
         $(window).on('keydown', event => {
-            if(event.key == 'r') {
+            if(event.key == 'h') {
+                this.hs.toggleVisibility();
+            }
+            else if(!this.hs.show && event.key == 'r') {
                 this.player.score = 0;
                 this.reloadCurrentLevel();
             }
@@ -361,11 +473,12 @@ class LevelHandler {
         });
         $(document).on('goal-reached', event => {
             if( (this.currentLevel + 1) == this.maxLevels ) {
-                this.currentLevel = 0;
+                // this.currentLevel = 0;
+                this.hs.toggleVisibility();
             } else {
                 this.currentLevel++;
-            }
-            this.reloadCurrentLevel();
+                this.reloadCurrentLevel();
+            }            
         });
         $(document).on('bonus-reached', event => {
             $("#score").text("Score: " + this.player.score);
@@ -374,6 +487,8 @@ class LevelHandler {
         this.loadLevelFiles(this.currentLevel, this.maxLevels);
         this.createScoreViewer();
         this.createInfoAndCredits_EtcTables();
+        this.bgMusic = new Sound("theme", "assets/sound/Atanii - JSquarus Theme.wav", true, true, "body");
+        (document.getElementById("theme")).volume = 0.5;
     }
 
     reloadCurrentLevel() {
@@ -451,9 +566,7 @@ class LevelHandler {
 
     async loadLevelFiles(from = 0, to = 2) {
         this.levels = [];
-
-        const c = $('<canvas id="can"></canvas>');
-        c.appendTo('body');
+        
         this.context = (document.getElementById("can")).getContext("2d");
 
         for(let i = from; i < to; i++) {

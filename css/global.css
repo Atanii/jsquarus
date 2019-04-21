@@ -17,6 +17,58 @@ body {
     border: 1px solid white;
 }
 
+#highscore {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: rgb(15, 15, 15);
+    border: 1px solid white;
+    z-index: 4;
+}
+
+#highscore textarea {
+    position: absolute;
+
+    background-color: rgb(15, 15, 15);
+    color: white;
+
+    text-align: justify;    
+    font-size: 30px;
+
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+
+    width: 797px;
+    height: 90%;
+}
+
+#highscore input {
+    position: absolute;
+
+    background-color: rgb(10, 10, 10);
+    border: 1px solid white;
+    color: yellowgreen;
+
+    text-align: center;
+    font-size: 25px;
+
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+
+    width: 797px;
+    height: 9%;
+    z-index: 5;
+}
+
 #player {
     z-index: 3;
 }
