@@ -36,6 +36,7 @@ This clone: Jeremi Emánuel Kádár (nickname: Atanii)
 1. Visual Studio Code (https://code.visualstudio.com/)
 2. Gimp (https://www.gimp.org/)
 3. LMMS (https://lmms.io/)
+4. Beepola (http://freestuff.grok.co.uk/beepola/)
 
 ### Plans for final version:
 
