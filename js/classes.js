@@ -6,11 +6,11 @@ const Dir = Object.freeze({
 });
 
 class Sound {
-    constructor(name, path, isLooping, isAutoPlay, appendToThisNode, muted = false) {
+    constructor(name, path, isLooping, isAutoPlay, appendToThisNode, type = "wav", muted = false) {
         this.id = name;
         this.node = $(
         '<audio id="' + name + '">' +
-            '<source src="' + path + '" type="audio/wav">' +
+            '<source src="' + path + '" type="audio/' + type + '">' +
         '</audio>'
         );        
         this.node.attr("loop", isLooping);
@@ -487,7 +487,7 @@ class LevelHandler {
         this.loadLevelFiles(this.currentLevel, this.maxLevels);
         this.createScoreViewer();
         this.createInfoAndCredits_EtcTables();
-        this.bgMusic = new Sound("theme", "assets/sound/Atanii - JSquarus Theme.wav", true, true, "body");
+        this.bgMusic = new Sound("theme", "assets/sound/Atanii - JSquarus - Theme.ogg", true, true, "body", "ogg");
         (document.getElementById("theme")).volume = 0.5;
     }
 
