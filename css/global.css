@@ -93,27 +93,11 @@ body {
 }
 
 .laser {
-    /* transition-delay: 0.5s; */
-    animation: laserAnim 2s infinite;
     border: 1px white solid;
     z-index: 2;
 }
-@keyframes laserAnim {    
-    0% {
-        background-color: red;
-        border: 1px white solid;
-    }
-    50% {
-        background-color: rgb(100, 0, 0);
-        border: 1px red solid;
-    }
-    100% {
-        background-color: red;
-        border: 1px white solid;
-    }
-}
 
 .laser-line {
+    border: 1px white solid;
     z-index: 2;
-    animation: laserAnim 2s infinite;
 }
