@@ -23,6 +23,7 @@ You can try and play this game here: https://atanii.github.io/jsquarus/
 | d    | right                         |
 | s    | down                          |
 | a    | left                          |
+| h    | highscore (no way back)       |
 
 ### Credits:
 
