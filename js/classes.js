@@ -448,7 +448,7 @@ class LevelHandler {
         this.levelSize = levelSize;
         this.doneEvent = new CustomEvent("levelsAreReady");
         this.currentLevel = 0;
-        this.maxLevels = 2;
+        this.maxLevels = 5;
         this.player = new Player();
         this.hs = new HighScore(this.player);
         $(window).on('keydown', event => {            
