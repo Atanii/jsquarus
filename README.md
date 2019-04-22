@@ -38,8 +38,13 @@ This clone: Jeremi Emánuel Kádár (nickname: Atanii)
 
 ### Plans for final version:
 
-1. 4-5 levels
+1. &#10004; 4-5 levels
 2. &#10004; highscore...
 3. &#10004; ...and input for name to put into highscore
 4. &#10004; music
 5. &#10004; sound effects
+
+### Known bugs / glitches / issues:
+
+1. If you move 'too fast', you can move throught the box you pushing.
+2. The game sometimes lags. I removed the laser animation but it seems it's not enough. I think the code is too slow.
